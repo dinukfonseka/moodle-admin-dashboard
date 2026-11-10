@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dinuk Fonseka | Moodle Administration Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --navy: #14243d;
+      --blue: #4169df;
+      --teal: #19a39c;
+      --ink: #1c2b40;
+      --muted: #728096;
+      --line: #e6ebf2;
+      --bg: #f5f7fa;
+      --white: #fff
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 34px max(20px, calc((100vw - 1120px)/2)) 30px
+    }
+
+    .kicker {
+      font-size: 10px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: #a9c4e4;
+      font-weight: 700
+    }
+
+    h1 {
+      font: 800 clamp(28px, 4vw, 40px)/1.12 Manrope;
+      margin: 11px 0 8px;
+      letter-spacing: -.7px
+    }
+
+    header p {
+      font-size: 13px;
+      color: #d3deeb;
+      line-height: 1.65;
+      margin: 0;
+      max-width: 740px
+    }
+
+    .hero-foot {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 17px
+    }
+
+    .hero-pill {
+      border: 1px solid #ffffff38;
+      border-radius: 30px;
+      padding: 6px 11px;
+      font-size: 10px;
+      color: #dce8f5
+    }
+
+    main {
+      max-width: 1120px;
+      margin: auto;
+      padding: 22px 20px 48px
+    }
+
+    .section {
+      margin-top: 25px
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 12px
+    }
+
+    h2 {
+      font: 700 17px Manrope;
+      margin: 0;
+      color: var(--navy)
+    }
+
+    .sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 4px 0 0
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 11px
+    }
+
+    .kpi {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 17px
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      color: #7d899b;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .7px
+    }
+
+    .kpi-value {
+      font: 800 27px Manrope;
+      color: var(--navy);
+      margin: 7px 0 2px
+    }
+
+    .kpi-note {
+      font-size: 10px;
+      color: #8591a2
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    select {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font: 600 11px 'DM Sans';
+      color: #31425b;
+      min-width: 155px
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 17px
+    }
+
+    .chart-area {
+      height: 330px;
+      position: relative
+    }
+
+    .chart-note {
+      font-size: 10px;
+      color: #7f8b9c;
+      margin-top: 9px;
+      line-height: 1.5
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 550px;
+      font-size: 11px
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      text-align: right;
+      border-bottom: 1px solid #edf0f5
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left
+    }
+
+    th {
+      font-size: 10px;
+      color: #758399;
+      background: #fafbfd;
+      text-transform: uppercase;
+      letter-spacing: .6px
+    }
+
+    td:first-child {
+      font-weight: 600;
+      color: #33445b
+    }
+
+    tr:last-child td {
+      border-bottom: 0
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 6px;
+      background: #edf2ff;
+      color: #3655a4;
+      padding: 4px 7px;
+      font-size: 9px;
+      font-weight: 700
+    }
+
+    .activities {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px
+    }
+
+    .activity {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 14px
+    }
+
+    .activity strong {
+      font: 700 12px Manrope;
+      display: block;
+      margin-bottom: 5px;
+      color: #253851
+    }
+
+    .activity span {
+      font-size: 10px;
+      line-height: 1.55;
+      color: #738196
+    }
+
+    .note {
+      background: #edf3fa;
+      border: 1px solid #dce7f2;
+      border-radius: 10px;
+      padding: 13px 15px;
+      font-size: 10px;
+      color: #5e6e84;
+      line-height: 1.65;
+      margin-top: 16px
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 23px;
+      padding-top: 13px;
+      color: #8994a4;
+      font-size: 9px;
+      line-height: 1.6
+    }
+
+    @media(max-width:700px) {
+      .kpis {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .activities {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .chart-area {
+        height: 280px
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column
+      }
+    }
+
+    @media(max-width:430px) {
+      main {
+        padding: 17px 12px 35px
+      }
+
+      .kpi {
+        padding: 13px
+      }
+
+      .kpi-value {
+        font-size: 23px
+      }
+
+      .activities {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="kicker">Professional portfolio · Learning technology operations</div>
+    <h1>Dinuk Fonseka</h1>
+    <p>Moodle LMS Administrator | Digital Learning Operations<br>Demonstrating hands-on Moodle administration across
+      Wayamba University and BCI Campus, including user management, course creation, enrolments, roles, configuration
+      and assessment operations.</p>
+    <div class="hero-foot"><span class="hero-pill">Moodle administration since 2020</span><span
+        class="hero-pill">Wayamba University · 2020–2024</span><span class="hero-pill">BCI Campus · 2024–present</span>
+    </div>
+  </header>
+  <main>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Administration activity at a glance</h2>
+          <p class="sub">Exact counts of selected Moodle event types across both exports.</p>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Monthly Moodle administration activity</h2>
+          <p class="sub">Explore how recorded activity changes over time.</p>
+        </div>
+        <div class="controls"><select id="institution">
+            <option value="All">All institutions</option>
+            <option value="Wayamba">Wayamba University</option>
+            <option value="BCI">BCI Campus</option>
+          </select><select id="activity">
+            <option value="All activities">All activities</option>
+          </select><select id="yearFilter" aria-label="Filter by year">
+            <option value="All">All years</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+          </select></div>
+      </div>
+      <div class="panel">
+        <div class="chart-area"><canvas id="monthlyChart"></canvas></div>
+        <div class="chart-note" id="chartNote">Monthly count of Moodle log records. Select an institution and activity
+          category to refine the trend.</div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Institutional activity breakdown</h2>
+          <p class="sub">Selected administration event counts, separated by institution.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Administration activity</th>
+              <th>Wayamba</th>
+              <th>BCI</th>
+              <th>Combined</th>
+            </tr>
+          </thead>
+          <tbody id="breakdown"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Core daily administration responsibilities</h2>
+          <p class="sub">The practical work behind the recorded platform activity.</p>
+        </div>
+      </div>
+      <div class="activities">
+        <div class="activity"><strong>User management</strong><span>Create and update accounts, maintain user profiles
+            and manage access.</span></div>
+        <div class="activity"><strong>Course management</strong><span>Create, update, restore and back up Moodle
+            courses.</span></div>
+        <div class="activity"><strong>Enrolment management</strong><span>Enrol users into courses and maintain course
+            participation access.</span></div>
+        <div class="activity"><strong>Role management</strong><span>Assign and remove lecturer, student and other course
+            roles.</span></div>
+        <div class="activity"><strong>Course configuration</strong><span>Maintain course sections, activities, modules
+            and course settings.</span></div>
+        <div class="activity"><strong>Assessment management</strong><span>Manage quizzes, assignments, question banks
+            and grading workflows.</span></div>
+        <div class="activity"><strong>Attendance management</strong><span>Configure attendance sessions and support
+            attendance recording.</span></div>
+        <div class="activity"><strong>Learning content</strong><span>Support H5P, course resources, learning materials
+            and activities.</span></div>
+        <div class="activity"><strong>Configuration support</strong><span>Handle Moodle application-level settings and
+            configuration changes.</span></div>
+      </div>
+    </section>
+    <div class="note"><strong>How to interpret the data:</strong> The dashboard is based on Moodle audit logs from two
+      institutions. Wayamba University records after 30 September 2024 have been excluded to ensure that only activities
+      within my employment period are represented. The available Wayamba log evidence covers February 2022 to September
+      2024, while BCI Campus records cover October 2024 to October 2026. My Moodle administration experience began in
+      2020.
+
+      The figures represent recorded Moodle events rather than unique users, courses, working hours or individually
+      performed tasks. Some events may result from bulk operations or automated system processes. Activity categories
+      are grouped using Moodle event labels and components to provide a practical overview of administration activities.
+
+      At BCI Campus, my responsibilities focus on front-end and application-level Moodle administration, academic
+      support and LMS operations. Server-side infrastructure is managed separately by the technical team.</div>
+    <footer>Prepared from user-supplied Moodle log exports. No user names, IP addresses, descriptions or
+      individual-level records are displayed. Obtain institutional approval before publishing institutional data or
+      branding. The dashboard is a static snapshot and is not connected to live Moodle systems.</footer>
+  </main>
+  <script>
+    const DATA = {"Wayamba": {"total": 333842, "monthly_all": {"2022-02": 16037, "2022-03": 12782, "2022-04": 2351, "2022-05": 12437, "2022-06": 1622, "2022-07": 7285, "2022-08": 19098, "2022-09": 4059, "2022-10": 2324, "2022-11": 3065, "2022-12": 17421, "2023-01": 12876, "2023-02": 18343, "2023-03": 11220, "2023-04": 7403, "2023-05": 3092, "2023-06": 4629, "2023-07": 25179, "2023-08": 16705, "2023-09": 26018, "2023-10": 7509, "2023-11": 3158, "2023-12": 2813, "2024-01": 5719, "2024-02": 15710, "2024-03": 22771, "2024-04": 8338, "2024-05": 1869, "2024-06": 4178, "2024-07": 17074, "2024-08": 17586, "2024-09": 3171}, "monthly_cat": {"Assessment management": {"2022-02": 130, "2022-03": 137, "2022-04": 382, "2022-05": 471, "2022-06": 397, "2022-07": 156, "2022-08": 375, "2022-09": 206, "2022-10": 587, "2022-11": 597, "2022-12": 798, "2023-01": 307, "2023-02": 1045, "2023-03": 797, "2023-04": 296, "2023-05": 1173, "2023-06": 548, "2023-07": 2140, "2023-08": 1317, "2023-09": 702, "2023-10": 745, "2023-11": 1012, "2023-12": 548, "2024-01": 1366, "2024-02": 710, "2024-03": 394, "2024-04": 372, "2024-05": 448, "2024-06": 541, "2024-07": 1897, "2024-08": 821, "2024-09": 340}, "Configuration changes": {"2022-02": 176, "2022-03": 11, "2022-05": 18, "2022-06": 5, "2022-07": 3, "2022-08": 3, "2022-09": 2, "2022-10": 2, "2022-12": 7, "2023-01": 4, "2023-02": 3, "2023-03": 6, "2023-05": 3, "2023-06": 25, "2023-07": 4, "2023-08": 3, "2023-09": 1, "2023-11": 2, "2024-01": 3, "2024-03": 2, "2024-04": 4, "2024-08": 3, "2024-09": 4}, "Course management": {"2022-02": 56, "2022-03": 49, "2022-04": 35, "2022-05": 164, "2022-06": 4, "2022-07": 119, "2022-08": 27, "2022-09": 55, "2022-10": 2, "2022-11": 7, "2022-12": 45, "2023-01": 179, "2023-02": 154, "2023-03": 114, "2023-04": 8, "2023-05": 10, "2023-06": 19, "2023-07": 2, "2023-08": 72, "2023-09": 417, "2023-10": 41, "2023-11": 4, "2023-12": 78, "2024-01": 72, "2024-02": 232, "2024-03": 51, "2024-04": 22, "2024-05": 3, "2024-06": 10, "2024-07": 208, "2024-08": 83, "2024-09": 7}, "Course structure & activities": {"2022-02": 622, "2022-03": 315, "2022-04": 806, "2022-05": 571, "2022-06": 29, "2022-07": 2106, "2022-08": 760, "2022-09": 423, "2022-10": 139, "2022-11": 75, "2022-12": 339, "2023-01": 1354, "2023-02": 910, "2023-03": 294, "2023-04": 476, "2023-05": 161, "2023-06": 151, "2023-07": 174, "2023-08": 226, "2023-09": 1019, "2023-10": 1226, "2023-11": 111, "2023-12": 207, "2024-01": 306, "2024-02": 909, "2024-03": 912, "2024-04": 413, "2024-05": 42, "2024-06": 228, "2024-07": 801, "2024-08": 346, "2024-09": 83}, "Enrolments": {"2022-02": 6120, "2022-03": 4498, "2022-04": 183, "2022-05": 3780, "2022-06": 268, "2022-07": 1693, "2022-08": 8237, "2022-09": 986, "2022-10": 61, "2022-11": 232, "2022-12": 6899, "2023-01": 4605, "2023-02": 7156, "2023-03": 4232, "2023-04": 49, "2023-05": 51, "2023-06": 506, "2023-07": 1346, "2023-08": 6451, "2023-09": 11085, "2023-10": 1894, "2023-11": 478, "2023-12": 315, "2024-01": 1004, "2024-02": 5428, "2024-03": 9315, "2024-04": 3104, "2024-05": 441, "2024-06": 858, "2024-07": 5540, "2024-08": 7490, "2024-09": 984}, "Learning content": {"2022-02": 2, "2022-03": 1, "2022-04": 2, "2022-05": 13, "2022-06": 4, "2022-07": 3, "2022-08": 166, "2022-09": 251, "2022-10": 202, "2022-11": 80, "2022-12": 134, "2023-01": 78, "2023-02": 31, "2023-03": 86, "2023-04": 272, "2023-05": 228, "2023-06": 406, "2023-07": 139, "2023-08": 60, "2023-09": 19, "2023-10": 93, "2023-11": 72, "2023-12": 36, "2024-01": 39, "2024-02": 6, "2024-03": 240, "2024-04": 180, "2024-05": 11, "2024-06": 6, "2024-07": 138, "2024-08": 95, "2024-09": 76}, "Other activity": {"2022-02": 1666, "2022-03": 406, "2022-04": 536, "2022-05": 1600, "2022-06": 329, "2022-07": 1284, "2022-08": 952, "2022-09": 811, "2022-10": 931, "2022-11": 1246, "2022-12": 1026, "2023-01": 1576, "2023-02": 1635, "2023-03": 1213, "2023-04": 6076, "2023-05": 1230, "2023-06": 1419, "2023-07": 18982, "2023-08": 1840, "2023-09": 1327, "2023-10": 1072, "2023-11": 689, "2023-12": 923, "2024-01": 1231, "2024-02": 2053, "2024-03": 2083, "2024-04": 987, "2024-05": 372, "2024-06": 284, "2024-07": 2143, "2024-08": 871, "2024-09": 432}, "Role management": {"2022-02": 6004, "2022-03": 4661, "2022-04": 156, "2022-05": 3742, "2022-06": 267, "2022-07": 1586, "2022-08": 8202, "2022-09": 863, "2022-10": 63, "2022-11": 231, "2022-12": 6763, "2023-01": 4179, "2023-02": 6464, "2023-03": 4212, "2023-04": 50, "2023-05": 51, "2023-06": 499, "2023-07": 1343, "2023-08": 6151, "2023-09": 10664, "2023-10": 1433, "2023-11": 419, "2023-12": 441, "2024-01": 950, "2024-02": 5687, "2024-03": 9172, "2024-04": 3096, "2024-05": 438, "2024-06": 852, "2024-07": 5191, "2024-08": 7358, "2024-09": 976}, "User management": {"2022-02": 1261, "2022-03": 2704, "2022-04": 251, "2022-05": 2078, "2022-06": 319, "2022-07": 335, "2022-08": 376, "2022-09": 462, "2022-10": 337, "2022-11": 597, "2022-12": 1410, "2023-01": 594, "2023-02": 945, "2023-03": 266, "2023-04": 176, "2023-05": 185, "2023-06": 1056, "2023-07": 1049, "2023-08": 585, "2023-09": 784, "2023-10": 1005, "2023-11": 371, "2023-12": 265, "2024-01": 748, "2024-02": 685, "2024-03": 602, "2024-04": 160, "2024-05": 114, "2024-06": 1399, "2024-07": 1156, "2024-08": 519, "2024-09": 269}}}, "BCI": {"total": 138821, "monthly_all": {"2024-10": 11744, "2024-11": 6380, "2024-12": 4205, "2025-01": 5832, "2025-02": 3793, "2025-03": 7431, "2025-04": 3953, "2025-05": 8139, "2025-06": 5759, "2025-07": 6390, "2025-08": 3350, "2025-09": 3748, "2025-10": 2940, "2025-11": 2056, "2025-12": 458, "2026-01": 4067, "2026-02": 4114, "2026-03": 8316, "2026-04": 3793, "2026-05": 5050, "2026-06": 7813, "2026-07": 8815, "2026-08": 4051, "2026-09": 7521, "2026-10": 9103}, "monthly_cat": {"Assessment management": {"2024-10": 7910, "2024-11": 2635, "2024-12": 1834, "2025-01": 677, "2025-02": 829, "2025-03": 2347, "2025-04": 1172, "2025-05": 943, "2025-06": 1383, "2025-07": 1465, "2025-08": 959, "2025-09": 754, "2025-10": 885, "2025-11": 373, "2025-12": 79, "2026-01": 245, "2026-02": 148, "2026-03": 1154, "2026-04": 597, "2026-05": 820, "2026-06": 1339, "2026-07": 1630, "2026-08": 829, "2026-09": 942, "2026-10": 2320}, "Attendance": {"2024-10": 118, "2024-11": 188, "2024-12": 35, "2025-01": 228, "2025-02": 66, "2025-03": 231, "2025-04": 16, "2025-05": 269, "2025-06": 50, "2025-07": 48, "2025-08": 3, "2025-09": 65, "2025-10": 23, "2025-11": 43, "2026-01": 259, "2026-02": 58, "2026-03": 179, "2026-04": 39, "2026-05": 60, "2026-06": 38, "2026-07": 11, "2026-08": 5, "2026-09": 257, "2026-10": 252}, "Configuration changes": {"2024-10": 2, "2024-11": 13, "2024-12": 34, "2025-04": 2, "2025-05": 42, "2025-07": 2, "2025-08": 3, "2025-10": 17, "2025-11": 19, "2026-01": 1, "2026-02": 1, "2026-03": 5, "2026-04": 5, "2026-05": 54, "2026-06": 15, "2026-07": 15, "2026-08": 33, "2026-09": 2, "2026-10": 43}, "Course management": {"2024-10": 32, "2024-11": 32, "2024-12": 85, "2025-01": 53, "2025-02": 5, "2025-03": 29, "2025-04": 44, "2025-05": 34, "2025-06": 74, "2025-07": 24, "2025-08": 1, "2025-09": 28, "2025-10": 6, "2025-11": 6, "2025-12": 37, "2026-01": 84, "2026-02": 76, "2026-03": 45, "2026-04": 1, "2026-05": 8, "2026-06": 39, "2026-07": 96, "2026-08": 28, "2026-09": 5, "2026-10": 45}, "Course structure & activities": {"2024-10": 589, "2024-11": 277, "2024-12": 340, "2025-01": 307, "2025-02": 99, "2025-03": 543, "2025-04": 209, "2025-05": 189, "2025-06": 369, "2025-07": 376, "2025-08": 164, "2025-09": 256, "2025-10": 120, "2025-11": 161, "2025-12": 104, "2026-01": 283, "2026-02": 220, "2026-03": 874, "2026-04": 235, "2026-05": 427, "2026-06": 692, "2026-07": 1104, "2026-08": 361, "2026-09": 197, "2026-10": 976}, "Enrolments": {"2024-10": 30, "2024-11": 71, "2024-12": 73, "2025-01": 532, "2025-02": 27, "2025-03": 117, "2025-04": 173, "2025-05": 1049, "2025-06": 271, "2025-07": 823, "2025-08": 288, "2025-09": 140, "2025-10": 43, "2025-11": 27, "2025-12": 36, "2026-01": 528, "2026-02": 490, "2026-03": 465, "2026-04": 13, "2026-05": 91, "2026-06": 658, "2026-07": 1353, "2026-08": 70, "2026-09": 136, "2026-10": 409}, "Learning content": {"2024-10": 35, "2024-11": 8, "2024-12": 16, "2025-01": 21, "2025-02": 6, "2025-03": 9, "2025-04": 5, "2025-05": 71, "2025-06": 29, "2025-07": 34, "2025-08": 26, "2025-09": 47, "2025-10": 35, "2025-11": 26, "2025-12": 10, "2026-01": 24, "2026-02": 43, "2026-03": 14, "2026-04": 1, "2026-05": 32, "2026-06": 7, "2026-07": 22, "2026-08": 44, "2026-09": 73, "2026-10": 12}, "Other activity": {"2024-10": 2588, "2024-11": 2846, "2024-12": 1564, "2025-01": 2836, "2025-02": 2565, "2025-03": 3694, "2025-04": 1906, "2025-05": 3690, "2025-06": 3011, "2025-07": 2797, "2025-08": 1697, "2025-09": 2092, "2025-10": 1615, "2025-11": 1220, "2025-12": 163, "2026-01": 1672, "2026-02": 2388, "2026-03": 4605, "2026-04": 2838, "2026-05": 3220, "2026-06": 4175, "2026-07": 3024, "2026-08": 2421, "2026-09": 5042, "2026-10": 4346}, "Role management": {"2024-10": 20, "2024-11": 34, "2024-12": 9, "2025-01": 473, "2025-02": 20, "2025-03": 76, "2025-04": 172, "2025-05": 1025, "2025-06": 214, "2025-07": 584, "2025-08": 84, "2025-09": 103, "2025-10": 37, "2025-11": 27, "2026-01": 464, "2026-02": 421, "2026-03": 392, "2026-04": 13, "2026-05": 85, "2026-06": 584, "2026-07": 1130, "2026-08": 68, "2026-09": 143, "2026-10": 363}, "User management": {"2024-10": 420, "2024-11": 276, "2024-12": 215, "2025-01": 705, "2025-02": 176, "2025-03": 385, "2025-04": 254, "2025-05": 827, "2025-06": 358, "2025-07": 237, "2025-08": 125, "2025-09": 263, "2025-10": 159, "2025-11": 154, "2025-12": 29, "2026-01": 507, "2026-02": 269, "2026-03": 583, "2026-04": 51, "2026-05": 253, "2026-06": 266, "2026-07": 430, "2026-08": 192, "2026-09": 724, "2026-10": 337}}}, "stats": [{"label": "User accounts created", "event": "User created", "wayamba": 5777, "bci": 1310, "total": 7087}, {"label": "Courses created", "event": "Course created", "wayamba": 842, "bci": 415, "total": 1257}, {"label": "Course updates", "event": "Course updated", "wayamba": 1163, "bci": 412, "total": 1575}, {"label": "Enrolment events", "event": "User enrolled in course", "wayamba": 96699, "bci": 5680, "total": 102379}, {"label": "Role assignments", "event": "Role assigned", "wayamba": 97459, "bci": 5704, "total": 103163}, {"label": "Course module updates", "event": "Course module updated", "wayamba": 6477, "bci": 5865, "total": 12342}], "meta": {"total": 472663, "wayamba_total": 333842, "bci_total": 138821, "categories": ["All activities", "User management", "Course management", "Enrolments", "Role management", "Course structure & activities", "Assessment management", "Attendance", "Configuration changes", "Learning content", "Other activity"]}};
+    const fmt = n => Number(n).toLocaleString('en-US');
+    const cats = DATA.meta.categories;
+    const yearFilter = document.getElementById('yearFilter');
+    const inst = document.getElementById('institution'), activity = document.getElementById('activity');
+    cats.filter(x => x !== 'All activities').forEach(c => {let o = document.createElement('option'); o.value = c; o.textContent = c; activity.appendChild(o);});
+    document.getElementById('kpis').innerHTML = DATA.stats.map(s => `<div class="kpi"><div class="kpi-label">${s.label}</div><div class="kpi-value">${fmt(s.total)}</div><div class="kpi-note">Wayamba ${fmt(s.wayamba)} · BCI ${fmt(s.bci)}</div></div>`).join('');
+    document.getElementById('breakdown').innerHTML = DATA.stats.map(s => `<tr><td>${s.label}</td><td>${fmt(s.wayamba)}</td><td>${fmt(s.bci)}</td><td><span class="badge">${fmt(s.total)}</span></td></tr>`).join('');
+    let chart;
+    function renderChart() {
+      const key = inst.value, cat = activity.value;
+      const sources = key === 'All' ? ['Wayamba', 'BCI'] : [key];
+      const totals = {};
+      sources.forEach(src => {
+        const d = DATA[src];
+        const series = cat === 'All activities' ? d.monthly_all : (d.monthly_cat[cat] || {});
+        Object.entries(series).forEach(([m, v]) => totals[m] = (totals[m] || 0) + v);
+      });
+      let labels = Object.keys(totals).sort();
+      const selectedYear = yearFilter.value;
+      if (selectedYear !== 'All') labels = labels.filter(m => m.startsWith(selectedYear));
+      const vals = labels.map(m => totals[m]);
+      if (chart) chart.destroy();
+      if (typeof Chart === 'undefined') {document.getElementById('monthlyChart').style.display = 'none'; document.getElementById('chartNote').textContent = 'The summary figures and activity table are available. The monthly chart requires an internet connection to load its chart library.'; return;}
+      chart = new Chart(document.getElementById('monthlyChart'), {
+        type: 'line',
+        data: {labels, datasets: [{label: cat === 'All activities' ? 'All recorded activities' : cat, data: vals, borderColor: '#4169df', backgroundColor: 'rgba(65,105,223,.10)', fill: true, tension: .28, borderWidth: 2.5, pointRadius: 2.5, pointHoverRadius: 5}]},
+        options: {responsive: true, maintainAspectRatio: false, interaction: {intersect: false, mode: 'index'}, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => fmt(c.parsed.y) + ' recorded events'}}}, scales: {x: {grid: {display: false}, ticks: {maxTicksLimit: 12, maxRotation: 0, font: {size: 10}}}, y: {beginAtZero: true, grid: {color: '#edf1f6'}, ticks: {font: {size: 10}, callback: v => fmt(v)}}}}
+      });
+      document.getElementById('chartNote').textContent = `Showing ${cat.toLowerCase()} for ${key === 'All' ? 'both institutions' : key === 'Wayamba' ? 'Wayamba University' : 'BCI Campus'}${selectedYear === 'All' ? ' across all available years' : ' in ' + selectedYear}. Each point represents recorded Moodle log events for that calendar month.`;
+    }
+    inst.addEventListener('change', renderChart); activity.addEventListener('change', renderChart); yearFilter.addEventListener('change', renderChart); renderChart();
+  </script>
+</body>
+
+</html>
